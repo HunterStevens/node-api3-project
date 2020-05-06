@@ -85,10 +85,10 @@ function validateUserId(req,res,next){
 
 function validateUser(req, res, next) {
   // do your magic!
-  if(req.body === undefined || req.body === null){
+  if(req.body.name === undefined || req.body === null){
     res.status(400).json({ message: "missing user data" });
   }
-  else if(req.body.name === "" || req.body.name === undefined || req.body.name === null){
+  else if(req.body.name === "" || req.body.name === null){
     res.status(404).json({ message: "missing required name field" });
   }
   else{
