@@ -5,10 +5,19 @@ const router = express.Router();
 
 router.post('/', validateUser, (req, res) => {
   // do your magic!
+  userDb.insert(req.body)
+  .then(newUser =>{
+    res.status(200).json(newUser);
+  })
+  .catch(err =>{
+    console.log(err);
+    res.status(500).json(err);
+  })
 });
 
 router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
   // do your magic!
+
 });
 
 router.get('/', (req, res) => {
@@ -47,10 +56,12 @@ router.get('/:id/posts', validateUserId, (req, res) => {
 
 router.delete('/:id', validateUserId, (req, res) => {
   // do your magic!
+
 });
 
 router.put('/:id', validateUserId, (req, res) => {
   // do your magic!
+  
 });
 
 //custom middleware
@@ -74,7 +85,15 @@ function validateUserId(req,res,next){
 
 function validateUser(req, res, next) {
   // do your magic!
-  if(req.body.name === "" || req.body.name === undefined)
+  if(req.body === undefined || req.body === null){
+    res.status(400).json({ message: "missing user data" });
+  }
+  else if(req.body.name === "" || req.body.name === undefined || req.body.name === null){
+    res.status(404).json({ message: "missing required name field" });
+  }
+  else{
+    next();
+  }
 
 }
 
